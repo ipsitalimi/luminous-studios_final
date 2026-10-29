@@ -1,0 +1,19 @@
+{
+  "overview": "A dark, editorial design-studio website for Luminous Studios with an interactive Services section whose previews describe each service's capabilities.",
+  "features": [
+    "Interactive Services section with four numbered services",
+    "Laptop preview that updates on hover for each service",
+    "Mobile preview that updates on tap for each service",
+    "Capability groups, technology labels and workflow diagrams per service",
+    "Discuss this project links that preselect a project type in the contact form"
+  ],
+  "category": "landing-page",
+  "tags": [
+    "design-studio",
+    "portfolio",
+    "services",
+    "editorial",
+    "dark-theme"
+  ],
+  "last_updated": "2026-10-28T08:17:37.623Z"
+}

@@ -1,0 +1,98 @@
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type SubmitResult = 
+ variant {
+   err: EnquiryError;
+   ok: nat;
+ };
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type EnquiryInput = 
+ record {
+   budget: opt text;
+   description: text;
+   email: text;
+   name: text;
+   projectType: text;
+ };
+type EnquiryError = 
+ variant {
+   invalidInput: text;
+   notificationFailed: text;
+ };
+type Enquiry = 
+ record {
+   budget: opt text;
+   description: text;
+   email: text;
+   id: nat;
+   name: text;
+   projectType: text;
+   submittedAt: nat;
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  execute: (qJson: text) -> (Result) query;
+  /// Return the backend API documentation as Markdown.
+  getApiDoc: () -> (text) query;
+  getCallerUserRole: () -> (UserRole) query;
+  isCallerAdmin: () -> (bool) query;
+  /// List all stored enquiries. Admin-only.
+  listEnquiries: () -> (vec Enquiry) query;
+  schema: () -> (text) query;
+  /// Submit a contact-form enquiry. Open to any caller (including anonymous
+  /// visitors). Persists the enquiry and attempts a notification email; the
+  /// result distinguishes success from failure.
+  submitEnquiry: (input: EnquiryInput) -> (SubmitResult);
+}

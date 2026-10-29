@@ -1,0 +1,350 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "General Sans";
+  src: url("/assets/fonts/GeneralSans.woff2") format("woff2");
+  font-weight: 200 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/assets/fonts/GeistMono.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --font-display: "Space Grotesk", sans-serif;
+    --font-body: "General Sans", sans-serif;
+    --font-mono: "Geist Mono", monospace;
+    --radius: 0.125rem;
+
+    /* Near-black canvas — the studio's default surface */
+    --background: 0.145 0.008 250;
+    --foreground: 0.972 0.004 250;
+    --card: 0.185 0.009 250;
+    --card-foreground: 0.972 0.004 250;
+    --popover: 0.185 0.009 250;
+    --popover-foreground: 0.972 0.004 250;
+
+    --primary: 0.972 0.004 250;
+    --primary-foreground: 0.145 0.008 250;
+
+    --secondary: 0.24 0.01 250;
+    --secondary-foreground: 0.9 0.004 250;
+    --muted: 0.24 0.01 250;
+    --muted-foreground: 0.62 0.008 250;
+
+    /* Sharp blue accent — used sparingly, never as a dominant surface */
+    --accent: 0.815 0.095 240;
+    --accent-foreground: 0.145 0.008 250;
+
+    --destructive: 0.62 0.2 25;
+    --destructive-foreground: 0.972 0.004 250;
+
+    /* Fine hairline rules — low contrast on near-black */
+    --border: 0.28 0.01 250;
+    --input: 0.28 0.01 250;
+    --ring: 0.815 0.095 240;
+
+    --chart-1: 0.815 0.095 240;
+    --chart-2: 0.7 0.02 250;
+    --chart-3: 0.55 0.015 250;
+    --chart-4: 0.9 0.004 250;
+    --chart-5: 0.4 0.012 250;
+
+    --sidebar: 0.185 0.009 250;
+    --sidebar-foreground: 0.972 0.004 250;
+    --sidebar-primary: 0.972 0.004 250;
+    --sidebar-primary-foreground: 0.145 0.008 250;
+    --sidebar-accent: 0.24 0.01 250;
+    --sidebar-accent-foreground: 0.9 0.004 250;
+    --sidebar-border: 0.28 0.01 250;
+    --sidebar-ring: 0.815 0.095 240;
+
+    /* Motion — purposeful only, reduced-motion safe */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-quick: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Light section option — inverted spread, same blue accent */
+  .light {
+    --background: 0.972 0.004 250;
+    --foreground: 0.145 0.008 250;
+    --card: 1 0 0;
+    --card-foreground: 0.145 0.008 250;
+    --popover: 1 0 0;
+    --popover-foreground: 0.145 0.008 250;
+
+    --primary: 0.145 0.008 250;
+    --primary-foreground: 0.972 0.004 250;
+
+    --secondary: 0.93 0.005 250;
+    --secondary-foreground: 0.22 0.008 250;
+    --muted: 0.93 0.005 250;
+    --muted-foreground: 0.46 0.008 250;
+
+    --accent: 0.72 0.11 240;
+    --accent-foreground: 0.972 0.004 250;
+
+    --destructive: 0.55 0.2 25;
+    --destructive-foreground: 0.972 0.004 250;
+
+    --border: 0.88 0.005 250;
+    --input: 0.88 0.005 250;
+    --ring: 0.72 0.11 240;
+
+    --sidebar: 0.93 0.005 250;
+    --sidebar-foreground: 0.145 0.008 250;
+    --sidebar-primary: 0.145 0.008 250;
+    --sidebar-primary-foreground: 0.972 0.004 250;
+    --sidebar-accent: 0.88 0.005 250;
+    --sidebar-accent-foreground: 0.22 0.008 250;
+    --sidebar-border: 0.88 0.005 250;
+    --sidebar-ring: 0.72 0.11 240;
+  }
+
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+  ::selection {
+    background: oklch(var(--accent));
+    color: oklch(var(--accent-foreground));
+  }
+  :focus-visible {
+    outline: 1px solid oklch(var(--ring));
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  .transition-quick {
+    transition: var(--transition-quick);
+  }
+
+  /* Monumental hero headline — heaviest display weight, uppercase, tight
+     tracking and compact leading so the three lines read as one silhouette.
+     Sized in vw so the longest line never overflows on narrow screens. */
+  .text-display-hero {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(2.5rem, 12.5vw, 11rem);
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+  }
+
+  /* Oversized editorial display scale — tight leading, deliberate breaks */
+  .text-display-xl {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(3.25rem, 11vw, 9.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+  }
+  .text-display-lg {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+  }
+  .text-display-md {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.75rem, 3.5vw, 3rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+
+  /* Oversized editorial service numeral — display face, tabular, tight */
+  .service-number {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.75rem, 5vw, 4.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Restrained monospace label — numbered, tracked, uppercase */
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* Fine hairline rule */
+  .rule-hairline {
+    border-top: 1px solid oklch(var(--border));
+  }
+
+  /* Subtle grid/line motif — graphic detail, low contrast */
+  .bg-grid-lines {
+    background-image: linear-gradient(
+        to right,
+        oklch(var(--border) / 0.5) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        oklch(var(--border) / 0.5) 1px,
+        transparent 1px
+      );
+    background-size: 4rem 4rem;
+  }
+
+  /* Precise link underline — draws in on hover, blue accent */
+  .link-underline {
+    position: relative;
+    text-decoration: none;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.32s var(--ease-out-expo);
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+    background: oklch(var(--accent));
+  }
+
+  /* Small arrow nudge on hover */
+  .arrow-nudge {
+    display: inline-block;
+    transition: transform 0.24s var(--ease-out-expo);
+  }
+  .group:hover .arrow-nudge {
+    transform: translateX(0.35rem);
+  }
+
+  /* Selected Work — scroll-driven stacking deck. Each panel sticks near the
+     top of the viewport while the next one rises from below and layers over
+     it, leaving a sliver of the previous panel visible. Pure CSS: sticky
+     positioning plus per-panel z-index set inline. */
+  .work-deck {
+    display: flex;
+    flex-direction: column;
+  }
+  .work-panel {
+    position: sticky;
+    top: 5.5rem;
+    padding-bottom: 2.5rem;
+  }
+  .work-panel__surface {
+    box-shadow: 0 -1px 0 0 oklch(var(--border));
+  }
+
+  /* Approach — connected journey. Cards enter with a controlled horizontal
+     shift from their own side; the path fill draws in as the visitor
+     advances. Completed steps keep their revealed state. */
+  .approach-path-fill {
+    transition: transform 0.7s var(--ease-out-expo);
+  }
+  .approach-step {
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-out-expo), transform 0.6s
+      var(--ease-out-expo);
+  }
+  .approach-step.from-left {
+    transform: translateX(-2.5rem);
+  }
+  .approach-step.from-right {
+    transform: translateX(2.5rem);
+  }
+  .approach-step.is-revealed {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Project preview crop shift on hover */
+  .preview-crop {
+    overflow: hidden;
+  }
+  .preview-crop img,
+  .preview-crop .preview-inner {
+    transition: transform 0.5s var(--ease-out-expo);
+    transform: scale(1.02);
+  }
+  .group:hover .preview-crop img,
+  .group:hover .preview-crop .preview-inner {
+    transform: scale(1.06) translateY(-0.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .link-underline::after {
+    transform: scaleX(1);
+  }
+  .group:hover .arrow-nudge {
+    transform: none;
+  }
+  .group:hover .text-display-md,
+  .group:focus-within .text-display-md {
+    transform: none;
+  }
+  .group:hover .preview-crop img,
+  .group:hover .preview-crop .preview-inner {
+    transform: scale(1.02);
+  }
+  /* Reduced motion: drop the sticky stacking so panels read as a plain,
+     fully visible stack with no scroll-driven layering. */
+  .work-panel {
+    position: static;
+    padding-bottom: 0;
+  }
+  .work-deck {
+    gap: 3rem;
+  }
+  /* Reduced motion: approach cards are always visible in place, no
+     horizontal entrance, and the path reads as a static full line. */
+  .approach-step,
+  .approach-step.from-left,
+  .approach-step.from-right {
+    opacity: 1;
+    transform: none;
+  }
+  .approach-path-fill {
+    transform: scaleY(1) !important;
+  }
+}
